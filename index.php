@@ -1,8 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION['authenticated'])){
-     header('Location:/login.php');
-}
+// if(!isset($_SESSION['authenticated'])){
+//      header('Location:/login.php');
+// }
 require_once('user.php');
 
 $user = new User();

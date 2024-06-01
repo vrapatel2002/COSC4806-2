@@ -1,5 +1,28 @@
 <?php
     session_start();
+    require_once('user.php');
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $user = new User();
+        $user_data = $user->validate_user($username, $password);
+
+        if ($user_data) {
+            $_SESSION['username'] = $user_data['username'];
+            $_SESSION['authenticated'] = 1;
+            header('Location: /index.php');
+            exit();
+        } else {
+            if (!isset($_SESSION['failed_attempt'])) {
+                $_SESSION['failed_attempt'] = 1;
+            } else {
+                $_SESSION['failed_attempt']++;
+            }
+            $error = 'Invalid username or password';
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +33,10 @@
 <body> 
 
     <h1> Login form</h1>
-    <form action="/validate.php" method="post">
+        <?php if (isset($error)): ?>
+            <p style="color: red;"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endif; ?>
+    <form action="" method="post">
 
         <label for="username">Username:</label>
         <br>
@@ -29,3 +55,4 @@
 
 
 </html>
+
