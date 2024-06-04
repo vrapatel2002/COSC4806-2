@@ -27,10 +27,10 @@ Class User {
         $statement->bindParam(':username', $username);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
-    
         if ($user && password_verify($password, $user['password'])) {
             return $user;
         } else {
+            echo "Invalid username or password   ";
             return false;
         }
     }

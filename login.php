@@ -2,12 +2,18 @@
     session_start();
     require_once('user.php');
 
+
+
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        
         $username = $_POST['username'];
         $password = $_POST['password'];
 
         $user = new User();
         $user_data = $user->validate_user($username, $password);
+
+        print_r($user_data);
 
         if ($user_data) {
             $_SESSION['username'] = $user_data['username'];
